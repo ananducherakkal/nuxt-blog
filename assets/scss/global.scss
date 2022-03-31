@@ -1,0 +1,115 @@
+// Flex styling
+.flex-col {
+  display: flex;
+  flex-direction: column;
+}
+.flex-row {
+  display: flex;
+  flex-direction: row;
+}
+.justify {
+  &-center {
+    justify-content: center;
+  }
+  &-end {
+    justify-content: flex-end;
+  }
+  &-start {
+    justify-content: flex-start;
+  }
+}
+.items {
+  &-center {
+    align-items: center;
+  }
+  &-end {
+    align-items: flex-end;
+  }
+  &-start {
+    align-items: flex-start;
+  }
+}
+.grid-cols-2 {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+}
+.grid-cols-3 {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+}
+
+// margin
+.mr-auto {
+  margin-right: auto;
+}
+.ml-auto {
+  margin-right: auto;
+}
+.mt-auto {
+  margin-right: auto;
+}
+.mb-auto {
+  margin-right: auto;
+}
+
+// text size
+.text-15 {
+  font-size: rem(15);
+}
+.text-19 {
+  font-size: rem(19);
+}
+.text-24 {
+  font-size: rem(24);
+}
+.text-36 {
+  font-size: rem(36);
+}
+.text-42 {
+  font-size: rem(42);
+}
+.text-65 {
+  font-size: rem(65);
+}
+
+// size
+.h-full {
+  height: 100%;
+}
+.h-screen {
+  height: 100vh;
+}
+.w-full {
+  width: 100%;
+}
+.w-screen {
+  width: 100vw;
+}
+// Image styling
+
+.img-contain {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+}
+.img-cover {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+// Button styling
+
+.btn-1 {
+  font-size: 15px;
+  cursor: pointer;
+  padding: 0 rem(45);
+  line-height: rem(60);
+  text-align: center;
+  outline: none;
+  border: 1px solid $btn-primary-color;
+  color: $btn-primary-color;
+  background-color: $btn-primary-light-color;
+  border-radius: rem(30);
+  text-transform: uppercase;
+}
