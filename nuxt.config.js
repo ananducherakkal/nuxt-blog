@@ -29,6 +29,11 @@ export default {
     ]
   },
 
+  // Env variables
+  env: {
+    API_URL: 'http://localhost:8000'
+  },
+
   // Plugins to run before rendering page: https://go.nuxtjs.dev/config-plugins
   plugins: [
   ],

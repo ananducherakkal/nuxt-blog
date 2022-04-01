@@ -113,3 +113,36 @@
   border-radius: rem(30);
   text-transform: uppercase;
 }
+
+// Input style
+
+.disable-number-arrow {
+  -moz-appearance: textfield;
+
+  &::-webkit-outer-spin-button,
+  &::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+  }
+}
+
+.input {
+  padding: rem(10) rem(15);
+  width: 100%;
+  resize: none;
+  border: 1px solid #787878;
+  border-radius: rem(3);
+  outline: none;
+
+  &:focus {
+    border-color: rgb(15, 124, 250);
+  }
+
+  -moz-appearance: textfield;
+
+  &::-webkit-outer-spin-button,
+  &::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+  }
+}

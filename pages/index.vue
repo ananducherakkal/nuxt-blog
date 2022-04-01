@@ -5,15 +5,22 @@
 </template>
 
 <script>
-import blogs from '~/assets/json/blogs.json'
 import BlogCard from '~/components/elements/BlogCard'
 export default {
   name: 'IndexPage',
   components: {
     BlogCard
   },
-  computed: {
-    blogs: () => blogs
+  async asyncData (context) {
+    let blogs = []
+    await context.store.dispatch('blog/getBlogs').then((response) => {
+      if (response) {
+        blogs = response
+      }
+    })
+    return {
+      blogs
+    }
   }
 }
 </script>
