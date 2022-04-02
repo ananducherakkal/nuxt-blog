@@ -1,6 +1,6 @@
 <template>
   <client-only>
-    <VueEditor v-model="localValue" class="rich-text-editor input" @input="$emit('input', localValue)" />
+    <VueEditor v-model="localValue" class="rich-text-editor input" :placeholder="placeholder" @input="$emit('input', localValue)" />
   </client-only>
 </template>
 
@@ -8,6 +8,11 @@
 export default {
   props: {
     value: {
+      require: false,
+      type: String,
+      default: () => ''
+    },
+    placeholder: {
       require: false,
       type: String,
       default: () => ''

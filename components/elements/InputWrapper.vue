@@ -1,10 +1,13 @@
 <template>
   <div class="input-wrapper flex-cl" :class="{'nw-error': error, 'show-phone-code': phoneCode }">
+    <div v-if="label" class="input-label text-14">
+      {{ label }}
+    </div>
     <div class="input-field-wrapper">
       <!-- <CountryCodeSelect v-if="phoneCode" class="phone-code" :class="{'disable': disablePhoneCode}" /> -->
       <slot />
     </div>
-    <div v-if="error && errorText" class="input-error">
+    <div v-if="error && errorText" class="input-error text-12">
       {{ errorText | capitalize }}
     </div>
   </div>
@@ -41,6 +44,11 @@ export default {
       require: false,
       type: Boolean,
       default: () => false
+    },
+    label: {
+      require: false,
+      type: String,
+      default: () => null
     }
   }
 }
@@ -85,15 +93,22 @@ export default {
     // }
   }
   &.nw-error .input-field-wrapper {
-    ::v-deep input, textarea, select {
+    ::v-deep .input {
       // color: $error-color;
-      border-color: red;
+      border-color: red !important;
     }
   }
   &.show-phone-code .input-field-wrapper {
     ::v-deep input, textarea, select {
       padding-left: rem(80);
     }
+  }
+  .input-error {
+    color: red;
+    margin: rem(5) 0 0 rem(5);
+  }
+  .input-label {
+    margin: 0 0 rem(5) rem(5);
   }
 }
 </style>

@@ -1,43 +1,88 @@
 <template>
   <div class="page">
-    <input-wrapper>
-      <input v-model="title" type="text" class="input" placeholder="Title">
+    <input-wrapper :error="title.error" label="Title">
+      <input v-model="title.value" type="text" class="input" placeholder="Title">
     </input-wrapper>
-    <input-wrapper>
-      <input v-model="imageUrl" type="text" class="input" placeholder="Image Url">
+    <input-wrapper :error="imageUrl.error" label="Image Url">
+      <input v-model="imageUrl.value" type="text" class="input" placeholder="Image Url">
     </input-wrapper>
-    <input-wrapper>
-      <rich-text v-model="description" />
+    <input-wrapper :error="description.error" label="Content">
+      <rich-text v-model="description.value" placeholder="Content" />
     </input-wrapper>
-    <button @click="submit()">
+    <submit-button @click="submit()">
       Submit
-    </button>
+    </submit-button>
   </div>
 </template>
 
 <script>
+import validateInput from '~/utils/validation'
 import InputWrapper from '~/components/elements/InputWrapper'
+import SubmitButton from '~/components/elements/SubmitButton'
 import RichText from '~/components/elements/RichText'
 export default {
   components: {
     InputWrapper,
-    RichText
+    RichText,
+    SubmitButton
   },
   data () {
     return {
-      title: null,
-      description: null,
-      imageUrl: null
+      title: {
+        value: '',
+        check: ['non-empty'],
+        error: false
+      },
+      description: {
+        value: '',
+        check: ['non-empty'],
+        error: false
+      },
+      imageUrl: {
+        value: '',
+        check: ['non-empty'],
+        error: false
+      }
+    }
+  },
+  watch: {
+    'title.value' () {
+      this.resetError(this.title)
+    },
+    'description.value' () {
+      this.resetError(this.description)
+    },
+    'imageUrl.value' () {
+      this.resetError(this.imageUrl)
     }
   },
   methods: {
+    resetError (input) {
+      input.error = false
+    },
+    resetForm () {
+      this.title.value = ''
+      this.title.error = false
+      this.imageUrl.value = ''
+      this.imageUrl.error = false
+      this.description.value = ''
+      this.description.error = false
+    },
     async submit () {
-      const data = {
-        title: this.title,
-        description: this.description,
-        image_url: this.imageUrl
+      if (validateInput([this.title, this.description, this.imageUrl])) {
+        const data = {
+          title: this.title.value,
+          image_url: this.imageUrl.value,
+          description: this.description.value
+        }
+        await this.$store.dispatch('blog/addBlog', data)
+          .then(() => {
+            this.resetForm()
+          })
+          .catch(() => {
+            console.log('Sorry cannot add blog')
+          })
       }
-      await this.$store.dispatch('blog/addBlog', data)
     }
   }
 }

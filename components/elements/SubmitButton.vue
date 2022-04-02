@@ -7,7 +7,7 @@
     </div>
     <button
       type="submit"
-      class="rounded"
+      class="rounded btn-1"
       :class="secondary ? 'secondary-btn' : 'primary-btn'"
       :disabled="disabled || loading"
       tabindex="1"

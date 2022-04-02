@@ -21,12 +21,16 @@ export const actions = {
       .catch(error => error)
   },
   async addBlog ({ commit }, formData) {
-    return await this.$axios.$post(`${process.env.API_URL}/blog/`, formData)
-      .then((response) => {
-        commit('SET_BLOG', response && response.data)
-        return response && response.data
-      })
-      .catch(error => error)
+    return await new Promise((resolve, reject) => {
+      this.$axios.$post(`${process.env.API_URL}/blog/`, formData)
+        .then((response) => {
+          commit('SET_BLOG', response && response.data)
+          return resolve(response && response.data)
+        })
+        .catch((error) => {
+          return reject(error)
+        })
+    })
   },
   async updateBlog ({ commit }, formData) {
     return await this.$axios.$patch(`${process.env.API_URL}/blog/${formData.id}/`, formData)
