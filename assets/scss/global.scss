@@ -56,8 +56,8 @@
 .text-15 {
   font-size: rem(15);
 }
-.text-19 {
-  font-size: rem(19);
+.text-18 {
+  font-size: rem(18);
 }
 .text-24 {
   font-size: rem(24);
@@ -134,7 +134,7 @@
   border-radius: rem(3);
   outline: none;
 
-  &:focus {
+  &:focus, &:focus-within {
     border-color: rgb(15, 124, 250);
   }
 
@@ -144,5 +144,25 @@
   &::-webkit-inner-spin-button {
     -webkit-appearance: none;
     margin: 0;
+  }
+}
+
+// Text style
+.bold {
+  font-weight: 700;
+}
+.semi-bold {
+  font-weight: 500;
+}
+
+.capitalize {
+  text-transform: capitalize;
+}
+.uppercase {
+  text-transform: uppercase;
+}
+.first-capitalize {
+  &:first-letter {
+    text-transform: capitalize;
   }
 }

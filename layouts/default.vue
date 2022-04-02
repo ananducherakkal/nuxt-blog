@@ -1,29 +1,17 @@
 <template>
   <div class="default-layout">
-    <nav class="navbar flex-row items-center">
-      <div class="logo bold text-42 mr-auto">
-        Blog
-      </div>
-      <ul class="menu-items flex-row text-24">
-        <li>
-          <a>
-            LogIn
-          </a>
-        </li>
-        <li>
-          <a>
-            SignUp
-          </a>
-        </li>
-      </ul>
-    </nav>
+    <NavBar />
     <Nuxt />
   </div>
 </template>
 
 <script>
+import NavBar from '~/components/elements/NavBar'
 export default {
-  name: 'DefaultLayout'
+  name: 'DefaultLayout',
+  components: {
+    NavBar
+  }
 }
 </script>
 
@@ -34,20 +22,5 @@ export default {
 .default-layout {
   width: 100%;
   min-height: 100vh;
-  .navbar {
-    width: 100%;
-    height: rem(110);
-    position: fixed;
-    top: 0;
-    left: 0;
-    background: #efefef;
-    color: #fff;
-    padding: rem(15) rem(25);
-    .menu-items {
-      :not(:last-child) {
-        margin-right: rem(10);
-      }
-    }
-  }
 }
 </style>
