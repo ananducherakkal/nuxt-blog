@@ -51,6 +51,12 @@
 .mb-auto {
   margin-right: auto;
 }
+.mb-14 {
+  margin-bottom: rem(14);
+}
+.mb-20 {
+  margin-bottom: rem(20);
+}
 
 // text size
 .text-12 {
@@ -102,7 +108,56 @@
 }
 
 // Button styling
-
+.btn-base {
+  font-size: 15px;
+  cursor: pointer;
+  padding: 0 rem(30);
+  line-height: rem(40);
+  text-align: center;
+  outline: none;
+  border-radius: rem(20);
+  text-transform: uppercase;
+}
+.primary-btn {
+  @extend .btn-base;
+  border: 1px solid $btn-primary-color;
+  color: $btn-primary-light-color;
+  background-color: $btn-primary-color;
+  &:active {
+    background-color: transparent;
+    color: $btn-primary-color;
+  }
+}
+.secondary-btn {
+  @extend .btn-base;
+  border: 1px solid $btn-primary-color;
+  color: $btn-primary-color;
+  background-color: transparent;
+  &:active {
+    background-color: $btn-primary-color;
+    color: $btn-primary-light-color;
+  }
+}
+.primary-btn-light {
+  @extend .btn-base;
+  border: 1px solid $btn-primary-light-color;
+  color: $btn-primary-color;
+  background-color: $btn-primary-light-color;
+  &:active {
+    background-color: transparent;
+    color: $btn-primary-light-color;
+  }
+}
+.secondary-btn-light {
+  @extend .btn-base;
+  border: 1px solid $btn-primary-light-color;
+  color: $btn-primary-light-color;
+  background-color: transparent;
+  &:active {
+    background-color: $btn-primary-light-color;
+    color: $btn-primary-color;
+  }
+}
 .btn-1 {
   font-size: 15px;
   cursor: pointer;
@@ -168,4 +223,7 @@
   &:first-letter {
     text-transform: capitalize;
   }
+}
+.cursor-pointer {
+  cursor: pointer;
 }

@@ -81,12 +81,8 @@ export default {
           password: this.password.value
         }
         await this.$store.dispatch('user/registerUser', formData)
-          .then(() => {
-            console.log('register successfull')
-          })
-          .catch((error) => {
-            console.log('register failed', error)
-          })
+          .then(() => {})
+          .catch(() => {})
       }
     }
   }

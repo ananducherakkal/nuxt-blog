@@ -66,6 +66,12 @@ export default {
   build: {
   },
 
+  // Router Configuration
+
+  router: {
+    middleware: ['auth']
+  },
+
   // Server Configuration
   server: {
     port: 4004

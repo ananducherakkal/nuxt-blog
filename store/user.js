@@ -12,7 +12,7 @@ export const getters = {
 }
 
 export const actions = {
-  checkUser ({ commit }) {
+  checkUser ({ commit, state }) {
     const token = this.$cookies.get(state.cookieId)
     commit('SET_TOKEN', null)
     commit('SET_USER_DETAILS', null)
@@ -35,7 +35,6 @@ export const actions = {
     return await new Promise((resolve, reject) => {
       this.$axios.$post(`${process.env.API_URL}/login/`, formData)
         .then((response) => {
-          console.log('res', response)
           if (response && response.token) {
             this.$cookies.set(state.cookieId, response.token)
             dispatch('checkUser')
@@ -53,7 +52,6 @@ export const actions = {
     return await new Promise((resolve, reject) => {
       this.$axios.$post(`${process.env.API_URL}/user/`, formData)
         .then((response) => {
-          console.log('res', response)
           if (response && response.data && response.data.token) {
             this.$cookies.set(state.cookieId, response.data.token)
             dispatch('checkUser')

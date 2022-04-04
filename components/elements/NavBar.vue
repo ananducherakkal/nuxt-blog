@@ -1,29 +1,31 @@
 <template>
   <nav class="navbar flex-row items-center semi-bold" :class="{'scroll': scrollPosition > 0}">
-    <div class="logo text-36 mr-auto">
+    <NuxtLink class="logo text-36 mr-auto cursor-pointer" to="/">
       Blog
-    </div>
+    </NuxtLink>
     <ul class="menu-items flex-row text-18">
-      <li>
-        <a>
-          LogIn
-        </a>
-      </li>
-      <li>
-        <a>
-          SignUp
-        </a>
-      </li>
+      <NuxtLink v-if="!userDetails" class="secondary-btn-light" to="/register">
+        SignUp
+      </NuxtLink>
+      <NuxtLink v-if="!userDetails" class="primary-btn-light" to="/login">
+        LogIn
+      </NuxtLink>
     </ul>
   </nav>
 </template>
 
 <script>
+import { mapGetters } from 'vuex'
 export default {
   data () {
     return {
       scrollPosition: 0
     }
+  },
+  computed: {
+    ...mapGetters({
+      userDetails: 'user/userDetails'
+    })
   },
   beforeMount () {
     window.addEventListener('scroll', this.windowScroll)

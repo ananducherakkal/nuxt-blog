@@ -7,7 +7,6 @@
     </div>
     <button
       type="submit"
-      class="rounded btn-1"
       :class="secondary ? 'secondary-btn' : 'primary-btn'"
       :disabled="disabled || loading"
       tabindex="1"
@@ -47,14 +46,14 @@ export default {
 <style lang="scss" scoped>
 .submit-btn {
   margin-top: rem(10);
-  &.margin-top {
-    margin-top: rem(30);
-  }
   .loading {
     margin-bottom: rem(8);
   }
   :focus {
     outline: none;
+  }
+  &:not(:last-child) {
+    margin-right: rem(10);
   }
 }
 </style>

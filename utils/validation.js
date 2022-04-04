@@ -18,7 +18,6 @@ function validateInput (items, check = null, change = true) {
       })
       if (change) { item.error = checkError }
       error = error || checkError
-      // console.log('input: ', item.value, 'error: ', checkError)
     }
   })
   return !error

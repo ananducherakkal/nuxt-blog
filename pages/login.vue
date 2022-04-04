@@ -59,10 +59,10 @@ export default {
         }
         await this.$store.dispatch('user/loginUser', formData)
           .then(() => {
-            console.log('login successfull')
+            this.$router.push('/')
           })
           .catch((error) => {
-            console.log('login failed', error)
+            console.log(error, error.message)
           })
       }
     }

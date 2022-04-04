@@ -9,9 +9,17 @@
     <input-wrapper :error="description.error" label="Content">
       <rich-text v-model="description.value" placeholder="Content" />
     </input-wrapper>
-    <submit-button @click="submit()">
-      Submit
-    </submit-button>
+    <div v-if="submitError" class="input-error">
+      Something went wrong
+    </div>
+    <div class="flex-row">
+      <submit-button @click="submitForm()">
+        Submit
+      </submit-button>
+      <submit-button secondary>
+        Cancel
+      </submit-button>
+    </div>
   </div>
 </template>
 
@@ -25,6 +33,13 @@ export default {
     InputWrapper,
     RichText,
     SubmitButton
+  },
+  props: {
+    blog: {
+      require: false,
+      type: Object,
+      default: () => null
+    }
   },
   data () {
     return {
@@ -42,7 +57,8 @@ export default {
         value: '',
         check: ['non-empty'],
         error: false
-      }
+      },
+      submitError: false
     }
   },
   watch: {
@@ -56,9 +72,17 @@ export default {
       this.resetError(this.imageUrl)
     }
   },
+  beforeMount () {
+    if (this.blog) {
+      this.title.value = this.blog.title || ''
+      this.imageUrl.value = this.blog.image_url || ''
+      this.description.value = this.blog.description || ''
+    }
+  },
   methods: {
     resetError (input) {
       input.error = false
+      this.submitError = false
     },
     resetForm () {
       this.title.value = ''
@@ -68,19 +92,30 @@ export default {
       this.description.value = ''
       this.description.error = false
     },
-    async submit () {
+    async submitForm () {
       if (validateInput([this.title, this.description, this.imageUrl])) {
         const data = {
           title: this.title.value,
           image_url: this.imageUrl.value,
           description: this.description.value
         }
-        await this.$store.dispatch('blog/addBlog', data)
+        let url = 'blog/addBlog'
+        if (this.blog) {
+          url = 'blog/updateBlog'
+          data.id = this.blog.id
+        }
+        await this.$store.dispatch(url, data)
           .then(() => {
-            this.resetForm()
+            if (this.blog) {
+              console.log(`/${this.blog.id}`)
+              this.$router.push(`/${this.blog.id}`)
+            } else {
+              console.log('/')
+              this.$router.push('/')
+            }
           })
           .catch(() => {
-            console.log('Sorry cannot add blog')
+            this.submitError = true
           })
       }
     }

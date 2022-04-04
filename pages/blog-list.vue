@@ -13,22 +13,20 @@ export default {
   },
   async asyncData (context) {
     let blogs = []
-    const userDetails = context.store.getters['user/userDetails']
-    if (userDetails) {
-      await context.store.dispatch('blog/getBlogsByUser', { id: userDetails && userDetails.id }).then((response) => {
-        if (response) {
-          blogs = response
-        }
-      })
-    } else {
-      await context.store.dispatch('blog/getBlogs').then((response) => {
-        if (response) {
-          blogs = response
-        }
-      })
-    }
+    await context.store.dispatch('blog/getBlogs').then((response) => {
+      if (response) {
+        blogs = response
+      }
+    })
     return {
       blogs
+    }
+  },
+  mounted () {
+    try {
+      this.$router.push('/')
+    } catch (err) {
+      console.log('error', err)
     }
   }
 }
