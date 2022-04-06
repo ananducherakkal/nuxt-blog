@@ -1,25 +1,31 @@
 <template>
   <div class="page">
-    <input-wrapper :error="title.error" label="Title">
-      <input v-model="title.value" type="text" class="input" placeholder="Title">
-    </input-wrapper>
-    <input-wrapper :error="imageUrl.error" label="Image Url">
-      <input v-model="imageUrl.value" type="text" class="input" placeholder="Image Url">
-    </input-wrapper>
-    <input-wrapper :error="description.error" label="Content">
-      <rich-text v-model="description.value" placeholder="Content" />
-    </input-wrapper>
-    <div v-if="submitError" class="input-error">
-      Something went wrong
-    </div>
-    <div class="flex-row">
-      <submit-button @click="submitForm()">
-        Submit
-      </submit-button>
-      <submit-button secondary>
-        Cancel
-      </submit-button>
-    </div>
+    <form @submit.prevent>
+      <input-wrapper :error="title.error" label="Title" error-text="Please enter title">
+        <input v-model="title.value" type="text" class="input" placeholder="Title">
+      </input-wrapper>
+      <input-wrapper :error="description.error" label="Description" error-text="Please enter description">
+        <input v-model="description.value" class="input" placeholder="Description">
+      </input-wrapper>
+      <input-wrapper :error="imageUrl.error" label="Image Url" error-text="Please enter image url">
+        <input v-model="imageUrl.value" type="text" class="input" placeholder="Image Url">
+      </input-wrapper>
+      <input-wrapper :error="content.error" label="Content" error-text="Please enter content">
+        <rich-text v-model="content.value" placeholder="Content" />
+      </input-wrapper>
+      <div v-if="submitError" class="input-error">
+        Something went wrong
+      </div>
+      <div class="flex-row">
+        <submit-button @click="submitForm()">
+          Add
+        </submit-button>
+        <NuxtLink to="/" class="secondary-btn">
+          Cancel
+        </NuxtLink>
+      </div>
+    </form>
+    <LoadingBar :loading="loading" />
   </div>
 </template>
 
@@ -28,11 +34,13 @@ import validateInput from '~/utils/validation'
 import InputWrapper from '~/components/elements/InputWrapper'
 import SubmitButton from '~/components/elements/SubmitButton'
 import RichText from '~/components/elements/RichText'
+import LoadingBar from '~/components/elements/LoadingBar'
 export default {
   components: {
     InputWrapper,
     RichText,
-    SubmitButton
+    SubmitButton,
+    LoadingBar
   },
   props: {
     blog: {
@@ -43,6 +51,7 @@ export default {
   },
   data () {
     return {
+      loading: true,
       title: {
         value: '',
         check: ['non-empty'],
@@ -54,6 +63,11 @@ export default {
         error: false
       },
       imageUrl: {
+        value: '',
+        check: ['non-empty'],
+        error: false
+      },
+      content: {
         value: '',
         check: ['non-empty'],
         error: false
@@ -70,13 +84,20 @@ export default {
     },
     'imageUrl.value' () {
       this.resetError(this.imageUrl)
+    },
+    'content.value' () {
+      this.resetError(this.content)
     }
+  },
+  mounted () {
+    this.loading = false
   },
   beforeMount () {
     if (this.blog) {
       this.title.value = this.blog.title || ''
       this.imageUrl.value = this.blog.image_url || ''
       this.description.value = this.blog.description || ''
+      this.content.value = this.blog.content || ''
     }
   },
   methods: {
@@ -84,20 +105,13 @@ export default {
       input.error = false
       this.submitError = false
     },
-    resetForm () {
-      this.title.value = ''
-      this.title.error = false
-      this.imageUrl.value = ''
-      this.imageUrl.error = false
-      this.description.value = ''
-      this.description.error = false
-    },
     async submitForm () {
-      if (validateInput([this.title, this.description, this.imageUrl])) {
+      if (validateInput([this.title, this.imageUrl, this.description, this.content])) {
         const data = {
           title: this.title.value,
+          description: this.description.value,
           image_url: this.imageUrl.value,
-          description: this.description.value
+          content: this.content.value
         }
         let url = 'blog/addBlog'
         if (this.blog) {
@@ -107,10 +121,8 @@ export default {
         await this.$store.dispatch(url, data)
           .then(() => {
             if (this.blog) {
-              console.log(`/${this.blog.id}`)
               this.$router.push(`/${this.blog.id}`)
             } else {
-              console.log('/')
               this.$router.push('/')
             }
           })

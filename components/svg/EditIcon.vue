@@ -10,8 +10,7 @@
       rx="4"
       stroke="inherit"
       stroke-width="2"
-      fill="#fff"
-      fill-opacity="0.15"
+      fill="none"
     />
   </svg>
 </template>

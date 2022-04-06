@@ -1,13 +1,24 @@
 <template>
   <div class="submit-btn flex-cl">
-    <div v-if="loading" class="loading">
-      <span class="icon-s margin-s">
-        <LoadingCircleIcon />
-      </span> Loading..
+    <div v-if="loading" class="loading text-12">
+      <div class="float-left mr-5">
+        <LoadingCircleIcon class="loading-icon" />
+      </div>
+      Loading..
     </div>
     <button
+      v-if="secondary"
+      class="secondary-btn"
+      :disabled="disabled || loading"
+      tabindex="1"
+      @click="$emit('click')"
+    >
+      <slot />
+    </button>
+    <button
+      v-else
       type="submit"
-      :class="secondary ? 'secondary-btn' : 'primary-btn'"
+      class="primary-btn"
       :disabled="disabled || loading"
       tabindex="1"
       @click="$emit('click')"
@@ -45,9 +56,14 @@ export default {
 
 <style lang="scss" scoped>
 .submit-btn {
-  margin-top: rem(10);
+  // margin-top: rem(10);
   .loading {
-    margin-bottom: rem(8);
+    margin: 0 0 rem(6) rem(8);
+    line-height: rem(16);
+    .loading-icon {
+      width: rem(16);
+      height: rem(16);
+    }
   }
   :focus {
     outline: none;

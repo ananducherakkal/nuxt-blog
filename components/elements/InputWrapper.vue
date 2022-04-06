@@ -7,17 +7,19 @@
       <!-- <CountryCodeSelect v-if="phoneCode" class="phone-code" :class="{'disable': disablePhoneCode}" /> -->
       <slot />
     </div>
-    <div v-if="error && errorText" class="input-error text-12">
-      {{ errorText | capitalize }}
-    </div>
+    <input-error :error="Boolean(error && errorText)">
+      {{ errorText }}
+    </input-error>
   </div>
 </template>
 
 <script>
 // import CountryCodeSelect from '~/components/CountryCodeSelect'
+import InputError from '~/components/elements/InputError'
 export default {
   components: {
     // CountryCodeSelect
+    InputError
   },
   filters: {
     capitalize (str) {
@@ -59,7 +61,6 @@ export default {
   display: flex;
   flex-direction: column;
   width: 100%;
-  margin-bottom: rem(30);
   .input-field-wrapper {
     position: relative;
     width: 100%;
@@ -103,12 +104,11 @@ export default {
       padding-left: rem(80);
     }
   }
-  .input-error {
-    color: red;
-    margin: rem(5) 0 0 rem(5);
-  }
   .input-label {
     margin: 0 0 rem(5) rem(5);
+  }
+  &:not(:last-child) {
+    margin-bottom: rem(10);
   }
 }
 </style>

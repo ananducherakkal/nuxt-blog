@@ -1,27 +1,33 @@
 <template>
   <div>
-    <div class="form">
-      <input-wrapper :error="userId.error" label="Email/Phone number">
+    <form class="form" @submit.prevent>
+      <input-wrapper :error="userId.error" label="Email/Phone number" error-text="Please enter valid Email/Phone number">
         <input v-model="userId.value" type="text" class="input" placeholder="Email/Phone number">
       </input-wrapper>
-      <input-wrapper :error="password.error" label="Password">
+      <input-wrapper :error="password.error" label="Password" error-text="Please enter password">
         <input v-model="password.value" type="password" class="input" placeholder="Password">
       </input-wrapper>
-      <submit-button @click="submit()">
+      <input-error :error="loginError">
+        {{ loginErrorMessage || 'Something went wrong!' }}
+      </input-error>
+      <submit-button :loading="submitLoading" @click="submit()">
         Login
       </submit-button>
-    </div>
+    </form>
   </div>
 </template>
 
 <script>
+import { getErrorMessage } from '~/utils/error'
 import validateInput, { validate } from '~/utils/validation'
 import InputWrapper from '~/components/elements/InputWrapper'
+import InputError from '~/components/elements/InputError'
 import SubmitButton from '~/components/elements/SubmitButton'
 export default {
   name: 'LoginPage',
   components: {
     InputWrapper,
+    InputError,
     SubmitButton
   },
   data () {
@@ -35,20 +41,29 @@ export default {
         value: '',
         check: ['non-empty'],
         error: false
-      }
+      },
+      loginError: false,
+      loginErrorMessage: null,
+      submitLoading: false
     }
   },
   watch: {
     'userId.value' () {
-      this.userId.error = false
+      this.resetError(this.userId)
     },
     'password.value' () {
-      this.password.error = false
+      this.resetError(this.password)
     }
   },
   methods: {
+    resetError (input) {
+      input.error = false
+      this.loginError = false
+      this.loginErrorMessage = null
+    },
     async submit () {
       if (validateInput([this.userId, this.password])) {
+        this.submitLoading = true
         const formData = {
           password: this.password.value
         }
@@ -62,8 +77,10 @@ export default {
             this.$router.push('/')
           })
           .catch((error) => {
-            console.log(error, error.message)
+            this.loginError = true
+            this.loginErrorMessage = getErrorMessage(error)
           })
+        this.submitLoading = false
       }
     }
   }

@@ -1,6 +1,6 @@
 <template>
   <NuxtLink v-if="blog" :to="`/${blog.id}`" class="blog-listing-card flex-col">
-    <img :src="blog.image_url" alt="" class="content-image image-cover">
+    <img :src="blog.image_url" alt="" class="content-image img-cover">
     <div class="content">
       <div class="content-title uppercase text-14 semi-bold mb-14">
         {{ blog.category }}
@@ -34,6 +34,7 @@ export default {
   border-radius: rem(15);
   box-shadow: 0 1px 6px 0 rgb(0 0 0 / 20%);
   overflow: hidden;
+  background-color: #f8f8f8;
   .content-image {
     height: rem(230);
   }

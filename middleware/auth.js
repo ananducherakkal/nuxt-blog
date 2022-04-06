@@ -1,5 +1,5 @@
 const auth = ({ store, route, error, redirect }) => {
-  console.log(route.name)
+  store.dispatch('setPageName', route.name)
   const nonAuthPages = [
     'login',
     'register'

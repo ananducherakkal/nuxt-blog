@@ -38,7 +38,7 @@ export const actions = {
           if (response && response.token) {
             this.$cookies.set(state.cookieId, response.token)
             dispatch('checkUser')
-            return (response.token)
+            return resolve(response.token)
           } else {
             return reject(new Error('Invalid token'))
           }
@@ -55,7 +55,7 @@ export const actions = {
           if (response && response.data && response.data.token) {
             this.$cookies.set(state.cookieId, response.data.token)
             dispatch('checkUser')
-            return (response.data.token)
+            return resolve(response.data.token)
           } else {
             return reject(new Error('Invalid token'))
           }

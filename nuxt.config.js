@@ -29,6 +29,10 @@ export default {
     ]
   },
 
+  // Loding indicator
+
+  loading: '~/components/elements/LoadingBar.vue',
+
   // Env variables
   env: {
     API_URL: 'http://localhost:8000'

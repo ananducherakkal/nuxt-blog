@@ -5,7 +5,7 @@
 </template>
 
 <script>
-import BlogListingCard from '~/components/elements/BlogListingCard'
+import BlogListingCard from '~/components/blog/BlogListingCard'
 export default {
   name: 'BlogList',
   components: {

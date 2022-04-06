@@ -1,33 +1,39 @@
 <template>
   <div>
-    <div class="form">
-      <input-wrapper :error="name.error" label="Name">
+    <form class="form" @submit.prevent>
+      <input-wrapper :error="name.error" :error-text="'Please enter Name'" label="Name">
         <input v-model="name.value" type="text" class="input" placeholder="Name">
       </input-wrapper>
-      <input-wrapper :error="email.error" label="Email">
+      <input-wrapper :error="email.error" :error-text="'Please enter valid Email'" label="Email">
         <input v-model="email.value" type="text" class="input" placeholder="Email">
       </input-wrapper>
-      <input-wrapper :error="phone.error" label="Phone number">
+      <input-wrapper :error="phone.error" :error-text="'Please enter valid Phone number'" label="Phone number">
         <input v-model="phone.value" type="text" class="input" placeholder="Phone number">
       </input-wrapper>
-      <input-wrapper :error="password.error" label="Password">
+      <input-wrapper :error="password.error" :error-text="'Please enter password'" label="Password">
         <input v-model="password.value" type="password" class="input" placeholder="Password">
       </input-wrapper>
+      <input-error :error="registerError">
+        {{ registerErrorMessage || 'Something went wrong!' }}
+      </input-error>
       <submit-button @click="submit()">
-        Login
+        Sign Up
       </submit-button>
-    </div>
+    </form>
   </div>
 </template>
 
 <script>
+import { getErrorMessage } from '~/utils/error'
 import validateInput from '~/utils/validation'
 import InputWrapper from '~/components/elements/InputWrapper'
+import InputError from '~/components/elements/InputError'
 import SubmitButton from '~/components/elements/SubmitButton'
 export default {
   name: 'RegisterUser',
   components: {
     InputWrapper,
+    InputError,
     SubmitButton
   },
   data () {
@@ -51,7 +57,9 @@ export default {
         value: '',
         check: ['non-empty'],
         error: false
-      }
+      },
+      registerError: false,
+      registerErrorMessage: null
     }
   },
   watch: {
@@ -71,6 +79,8 @@ export default {
   methods: {
     resetError (input) {
       input.error = false
+      this.registerError = false
+      this.registerErrorMessage = null
     },
     async submit () {
       if (validateInput([this.name, this.email, this.phone, this.password])) {
@@ -81,8 +91,13 @@ export default {
           password: this.password.value
         }
         await this.$store.dispatch('user/registerUser', formData)
-          .then(() => {})
-          .catch(() => {})
+          .then(() => {
+            this.$router.push('/')
+          })
+          .catch((error) => {
+            this.registerError = true
+            this.registerErrorMessage = getErrorMessage(error)
+          })
       }
     }
   }

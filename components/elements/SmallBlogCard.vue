@@ -35,6 +35,7 @@ export default {
   height: rem(200);
   display: grid;
   grid-template-columns: 1fr 3fr;
+  background-color: $card-color;
   .content-wrapper {
     width: 100%;
     height: 100%;

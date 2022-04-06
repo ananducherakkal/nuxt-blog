@@ -1,24 +1,24 @@
 <template>
   <div v-if="blog" class="blog-preview flex-col">
-    <NuxtLink :to="`/${$route.params.blogId}/edit-blog/`">
+    <!-- <NuxtLink :to="`/${$route.params.blogId}/edit-blog/`">
       <EditIcon class="edit-icon cursor-pointer" />
-    </NuxtLink>
-    <img :src="blog.image_url" class="blog-image image-cover">
+    </NuxtLink> -->
+    <img :src="blog.image_url" class="blog-image img-cover">
     <div class="content">
       <h1 class="content-title text-42 bold mb-20 capitalize">
         {{ blog.title }}
       </h1>
       <!-- eslint-disable-next-line vue/no-v-html -->
-      <div class="text-18" v-html="blog.description" />
+      <div class="text-18" v-html="blog.content" />
     </div>
   </div>
 </template>
 
 <script>
-import EditIcon from '~/components/svg/EditIcon'
+// import EditIcon from '~/components/svg/EditIcon'
 export default {
   components: {
-    EditIcon
+    // EditIcon
   },
   props: {
     blog: {
